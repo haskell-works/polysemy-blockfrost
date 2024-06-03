@@ -56,6 +56,7 @@ module Polysemy.Blockfrost
     getAddressUtxos,
     getAddressUtxosAsset',
     getAddressUtxosAsset,
+    getAddressTransactions',
     getAddressTransactions,
 
     -- * Client.Cardano.Assets
@@ -166,6 +167,11 @@ module Polysemy.Blockfrost
     getTxMetadataByLabelCBOR',
     getTxMetadataByLabelCBOR,
 
+    -- * Pagination
+    allPages,
+
   ) where
 
 import           Polysemy.Blockfrost.Api
+
+import           Blockfrost.Client       (allPages)
