@@ -252,7 +252,7 @@ import           Control.Monad
 import           Data.Either
 import           Data.Maybe
 import           Data.Text
-import           GHC.Integer
+import           Prelude                               (Integer)
 
 import           Blockfrost.Client                     (AccountDelegation (..),
                                                         AccountHistory (..),

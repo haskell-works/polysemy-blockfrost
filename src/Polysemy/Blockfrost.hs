@@ -166,6 +166,11 @@ module Polysemy.Blockfrost
     getTxMetadataByLabelCBOR',
     getTxMetadataByLabelCBOR,
 
+    -- * Pagination
+    allPages,
+
   ) where
 
 import           Polysemy.Blockfrost.Api
+
+import           Blockfrost.Client       (allPages)

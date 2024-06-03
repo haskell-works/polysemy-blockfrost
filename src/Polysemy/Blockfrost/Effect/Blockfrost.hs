@@ -21,7 +21,7 @@ import           Data.Either
 import           Data.Function              (($))
 import           Data.Maybe
 import           Data.Text                  (Text)
-import           GHC.Integer
+import           Prelude                    (Integer)
 import           System.IO                  (IO)
 
 import           Blockfrost.Client          (BlockfrostError, Project)
