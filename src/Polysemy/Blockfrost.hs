@@ -56,6 +56,7 @@ module Polysemy.Blockfrost
     getAddressUtxos,
     getAddressUtxosAsset',
     getAddressUtxosAsset,
+    getAddressTransactions',
     getAddressTransactions,
 
     -- * Client.Cardano.Assets

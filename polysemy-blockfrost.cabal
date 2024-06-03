@@ -29,7 +29,7 @@ common polysemy-plugin            { build-depends: polysemy-plugin              
 common tasty                      { build-depends: tasty                                       < 1.6    }
 common text                       { build-depends: text                                        < 3      }
 
-common polysemy-blockfrost       { build-depends: polysemy-blockfrost                                 }
+common polysemy-blockfrost       { build-depends: polysemy-blockfrost                                   }
 
 common project-config
   import:               polysemy,

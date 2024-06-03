@@ -136,6 +136,7 @@ module Polysemy.Blockfrost.Api
     getAddressUtxos                     ,
     getAddressUtxosAsset'               ,
     getAddressUtxosAsset                ,
+    getAddressTransactions'             ,
     getAddressTransactions              ,
 
     -- Client.Cardano.Assets
@@ -278,6 +279,7 @@ import           Blockfrost.Client                     (AccountDelegation (..),
                                                         AssetTransaction (..),
                                                         Block (..),
                                                         BlockHash (..),
+                                                        BlockIndex (..),
                                                         BlockfrostError (..),
                                                         CBORString (..),
                                                         DatumHash (..),
@@ -395,6 +397,7 @@ getAddressUtxos'                    :: Member Blockfrost r => Member (Error Bloc
 getAddressUtxos                     :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> Sem r [AddressUtxo]
 getAddressUtxosAsset'               :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> AssetId-> Paged -> SortOrder -> Sem r [AddressUtxo]
 getAddressUtxosAsset                :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> AssetId -> Sem r [AddressUtxo]
+getAddressTransactions'             :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> Paged -> SortOrder -> Maybe BlockIndex -> Maybe BlockIndex -> Sem r [AddressTransaction]
 getAddressTransactions              :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> Sem r [AddressTransaction]
 
 -- Client.Cardano.Assets
@@ -559,6 +562,7 @@ getAddressUtxos                  a          = fromEither =<< BF.getAddressUtxos 
 getAddressUtxosAsset'            a b c d    = fromEither =<< BF.getAddressUtxosAsset'            a b c d
 getAddressUtxosAsset             a b        = fromEither =<< BF.getAddressUtxosAsset             a b
 getAddressTransactions           a          = fromEither =<< BF.getAddressTransactions           a
+getAddressTransactions'          a b c d e  = fromEither =<< BF.getAddressTransactions'          a b c d e
 
 -- Client.Cardano.Assets
 getAssets'                         a b        = fromEither =<< BF.getAssets'                       a b
