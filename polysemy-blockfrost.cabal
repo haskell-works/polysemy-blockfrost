@@ -55,6 +55,7 @@ library
                         Polysemy.Blockfrost.Api
                         Polysemy.Blockfrost.Client
                         Polysemy.Blockfrost.Effect.Blockfrost
+                        Polysemy.Blockfrost.Types
   hs-source-dirs:       src
   default-language:     Haskell2010
 
