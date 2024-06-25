@@ -1,5 +1,5 @@
 module Polysemy.Blockfrost.Types
-  ( Blockfrost,
+  ( Blockfrost(..),
 
     AccountDelegation(AccountDelegation),
     AccountHistory(AccountHistory),
