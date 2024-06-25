@@ -8,6 +8,7 @@ module Polysemy.Blockfrost.Api
     AccountInfo(..),
     AccountMir(..),
     AccountRegistration(..),
+    AccountRegistrationAction(..),
     AccountReward(..),
     AccountWithdrawal(..),
     Address(..),
@@ -17,32 +18,50 @@ module Polysemy.Blockfrost.Api
     AddressInfo(..),
     AddressInfoExtended(..),
     AddressTransaction(..),
+    AddressType(..),
     AddressUtxo(..),
     Amount(..),
+    AssetAction(..),
     AssetAddress(..),
     AssetDetails(..),
     AssetHistory(..),
     AssetId(..),
     AssetInfo(..),
+    AssetMetadata(..),
+    AssetOnChainMetadata(..),
     AssetTransaction(..),
     Block(..),
-    BlockHash(..),
     BlockfrostError(..),
+    BlockHash(..),
     CBORString(..),
+    CostModels(..),
     DatumHash(..),
+    DerivedAddress(..),
     Epoch(..),
     EpochInfo(..),
+    EpochLength(..),
     Genesis(..),
     Healthy(..),
+    InlineDatum(..),
+    IPFSAdd(..),
     IPFSData(..),
     IPFSPin(..),
     IPFSPinChange(..),
-    Metric(..), Network,
+    Lovelaces,
+    MetadataMediaFile(..),
+    Metric(..),
+    Network(..),
+    NetworkEraBound(..),
+    NetworkEraParameters(..),
     NetworkEraSummary(..),
+    NetworkStake(..),
+    NetworkSupply(..),
     NutlinkAddress(..),
     NutlinkAddressTicker(..),
     NutlinkTicker(..),
-    Paged(..), PolicyId,
+    Paged(..),
+    PinState(..),
+    PolicyId,
     Pool(..),
     PoolDelegator(..),
     PoolEpoch(..),
@@ -50,11 +69,17 @@ module Polysemy.Blockfrost.Api
     PoolId(..),
     PoolInfo(..),
     PoolMetadata(..),
+    PoolRegistrationAction(..),
     PoolRelay(..),
     PoolStakeDistribution(..),
     PoolUpdate(..),
+    PoolUpdateMetadata(..),
+    POSIXMillis,
+    Pot(..),
     Project(..),
     ProtocolParams(..),
+    Quantity(..),
+    RewardType(..),
     Script(..),
     ScriptCBOR(..),
     ScriptDatum(..),
@@ -63,9 +88,12 @@ module Polysemy.Blockfrost.Api
     ScriptHashList(..),
     ScriptJSON(..),
     ScriptRedeemer(..),
+    ScriptType (..),
     ServerTime(..),
-    Slot(..), SortOrder,
+    Slot(..),
+    SortOrder(..),
     StakeDistribution(..),
+    ToLower,
     Transaction(..),
     TransactionDelegation(..),
     TransactionMetaCBOR(..),
@@ -77,10 +105,17 @@ module Polysemy.Blockfrost.Api
     TransactionStake(..),
     TransactionUtxos(..),
     TransactionWithdrawal(..),
-    TxHash(..), TxMeta,
+    TxEval(..),
+    TxEvalBudget(..),
+    TxEvalInput(..),
+    TxHash(..),
+    TxMeta,
     TxMetaCBOR(..),
     TxMetaJSON(..),
     URLVersion(..),
+    UtxoInput(..),
+    UtxoOutput(..),
+    ValidationPurpose(..),
 
     runBlockfrost,
 
@@ -253,95 +288,49 @@ import           Control.Monad
 import           Data.Either
 import           Data.Maybe
 import           Data.Text
-import           Prelude                               (Integer)
+import           Prelude                                   (Integer)
 
-import           Blockfrost.Client                     (AccountDelegation (..),
-                                                        AccountHistory (..),
-                                                        AccountInfo (..),
-                                                        AccountMir (..),
-                                                        AccountRegistration (..),
-                                                        AccountReward (..),
-                                                        AccountWithdrawal (..),
-                                                        Address (..),
-                                                        AddressAssociated (..),
-                                                        AddressAssociatedTotal (..),
-                                                        AddressDetails (..),
-                                                        AddressInfo (..),
-                                                        AddressInfoExtended (..),
-                                                        AddressTransaction (..),
-                                                        AddressUtxo (..),
-                                                        Amount (..),
-                                                        AssetAddress (..),
-                                                        AssetDetails (..),
-                                                        AssetHistory (..),
-                                                        AssetId (..),
-                                                        AssetInfo (..),
-                                                        AssetTransaction (..),
-                                                        Block (..),
-                                                        BlockHash (..),
-                                                        BlockIndex (..),
-                                                        BlockfrostError (..),
-                                                        CBORString (..),
-                                                        DatumHash (..),
-                                                        Epoch (..),
-                                                        EpochInfo (..),
-                                                        Genesis (..),
-                                                        Healthy (..),
-                                                        IPFSData (..),
-                                                        IPFSPin (..),
-                                                        IPFSPinChange (..),
-                                                        Metric (..),
-                                                        Network (..),
-                                                        NetworkEraSummary (..),
-                                                        NutlinkAddress (..),
-                                                        NutlinkAddressTicker (..),
-                                                        NutlinkTicker (..),
-                                                        Paged (..),
-                                                        PolicyId (..),
-                                                        Pool (..),
-                                                        PoolDelegator (..),
-                                                        PoolEpoch (..),
-                                                        PoolHistory (..),
-                                                        PoolId (..),
-                                                        PoolInfo (..),
-                                                        PoolMetadata (..),
-                                                        PoolRelay (..),
-                                                        PoolStakeDistribution (..),
-                                                        PoolUpdate (..),
-                                                        Project (..),
-                                                        ProtocolParams (..),
-                                                        Script (..),
-                                                        ScriptCBOR (..),
-                                                        ScriptDatum (..),
-                                                        ScriptDatumCBOR (..),
-                                                        ScriptHash (..),
-                                                        ScriptHashList (..),
-                                                        ScriptJSON (..),
-                                                        ScriptRedeemer (..),
-                                                        ServerTime (..),
-                                                        Slot (..),
-                                                        SortOrder (..),
-                                                        StakeDistribution (..),
-                                                        Transaction (..),
-                                                        TransactionDelegation (..),
-                                                        TransactionMetaCBOR (..),
-                                                        TransactionMetaJSON (..),
-                                                        TransactionMir (..),
-                                                        TransactionPoolRetiring (..),
-                                                        TransactionPoolUpdate (..),
-                                                        TransactionRedeemer (..),
-                                                        TransactionStake (..),
-                                                        TransactionUtxos (..),
-                                                        TransactionWithdrawal (..),
-                                                        TxHash (..),
-                                                        TxMeta (..),
-                                                        TxMetaCBOR (..),
-                                                        TxMetaJSON (..),
-                                                        URLVersion (..))
+import           Blockfrost.Client                         (BlockfrostError (..),
+                                                            Paged (..),
+                                                            Project (..),
+                                                            SortOrder (..))
+import           Blockfrost.Types.Cardano.Accounts
+import           Blockfrost.Types.Cardano.Addresses
+import           Blockfrost.Types.Cardano.Assets
+import           Blockfrost.Types.Cardano.Blocks
+import           Blockfrost.Types.Cardano.Epochs
+import           Blockfrost.Types.Cardano.Genesis
+import           Blockfrost.Types.Cardano.Metadata
+import           Blockfrost.Types.Cardano.Network
+import           Blockfrost.Types.Cardano.Pools
+import           Blockfrost.Types.Cardano.Scripts
+import           Blockfrost.Types.Cardano.Transactions
+import           Blockfrost.Types.Cardano.Utils
+import           Blockfrost.Types.Common
+import           Blockfrost.Types.IPFS
+import           Blockfrost.Types.NutLink
+import           Blockfrost.Types.Shared.Ada
+import           Blockfrost.Types.Shared.Address
+import           Blockfrost.Types.Shared.Amount
+import           Blockfrost.Types.Shared.AssetId
+import           Blockfrost.Types.Shared.BlockHash
+import           Blockfrost.Types.Shared.BlockIndex
+import           Blockfrost.Types.Shared.CBOR
+import           Blockfrost.Types.Shared.DatumHash
+import           Blockfrost.Types.Shared.Epoch
+import           Blockfrost.Types.Shared.Opts
+import           Blockfrost.Types.Shared.PolicyId
+import           Blockfrost.Types.Shared.PoolId
+import           Blockfrost.Types.Shared.POSIXMillis
+import           Blockfrost.Types.Shared.Quantity
+import           Blockfrost.Types.Shared.ScriptHash
+import           Blockfrost.Types.Shared.Slot
+import           Blockfrost.Types.Shared.TxHash
+import           Blockfrost.Types.Shared.ValidationPurpose
 import           Polysemy
-import           Polysemy.Blockfrost.Effect.Blockfrost (Blockfrost,
-                                                        runBlockfrost)
-import qualified Polysemy.Blockfrost.Effect.Blockfrost as BF
+import           Polysemy.Blockfrost.Effect.Blockfrost     (Blockfrost,
+                                                            runBlockfrost)
+import qualified Polysemy.Blockfrost.Effect.Blockfrost     as BF
 import           Polysemy.Error
 
 
