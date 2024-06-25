@@ -117,6 +117,23 @@ module Polysemy.Blockfrost.Api
     UtxoOutput(..),
     ValidationPurpose(..),
 
+    mkAddress,
+    unAddress,
+    mkAssetId,
+    unAssetId,
+    mkBlockHash,
+    unBlockHash,
+    unEpoch,
+    unEpochLength,
+    mkPolicyId,
+    unPolicyId,
+    mkPoolId,
+    unPoolId,
+    millisecondsToPosix,
+    posixToMilliseconds,
+    unQuantity,
+    unSlot,
+
     runBlockfrost,
 
     -- Client
