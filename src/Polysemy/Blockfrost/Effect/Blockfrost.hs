@@ -148,6 +148,9 @@ data Blockfrost m a where
   -- Client.Cardano.Ledger
   GetLedgerGenesis :: Blockfrost m (Either BlockfrostError Genesis)
 
+  -- Client.Cardano.Mempool
+  GetMempoolTransactions :: Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [TxHashObject])
+  
   -- Client.Cardano.Accounts
   GetAccount :: Address -> Blockfrost m (Either BlockfrostError AccountInfo)
   GetAccountRewards' :: Address -> Paged -> SortOrder -> Blockfrost m (Either BlockfrostError [AccountReward])
@@ -255,7 +258,7 @@ runBlockfrost =
     GetBlockAffectedAddresses'          a b       -> callBlockfrost $ BF.getBlockAffectedAddresses'         a b
     GetBlockAffectedAddresses           a         -> callBlockfrost $ BF.getBlockAffectedAddresses          a
 
-    -- -- Client.Cardano.Network
+    -- Client.Cardano.Network
     GetNetworkInfo                                -> callBlockfrost $ BF.getNetworkInfo
     GetNetworkEras                                -> callBlockfrost $ BF.getNetworkEras
 
@@ -328,6 +331,9 @@ runBlockfrost =
 
     -- Client.Cardano.Ledger
     GetLedgerGenesis                              -> callBlockfrost $ BF.getLedgerGenesis
+    
+    -- Client.Cardano.Mempool
+    GetMempoolTransactions                      a b        -> callBlockfrost $ BF.go (\p -> BF.getMempoolTransactions p a b)
 
     -- Client.Cardano.Accounts
     GetAccount                          a         -> callBlockfrost $ BF.getAccount                         a

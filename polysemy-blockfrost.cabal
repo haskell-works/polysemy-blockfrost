@@ -21,8 +21,8 @@ source-repository head
 
 common base                       { build-depends: base                       >= 4.14       && < 5      }
 
-common blockfrost-api             { build-depends: blockfrost-api                              < 0.11   }
-common blockfrost-client          { build-depends: blockfrost-client                           < 0.9    }
+common blockfrost-api             { build-depends: blockfrost-api                              < 0.13   }
+common blockfrost-client          { build-depends: blockfrost-client                           < 0.10   }
 common polysemy                   { build-depends: polysemy                                    < 2      }
 common polysemy-log               { build-depends: polysemy-log                                < 0.11   }
 common polysemy-plugin            { build-depends: polysemy-plugin                             < 0.5    }

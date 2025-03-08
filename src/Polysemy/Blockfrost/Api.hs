@@ -250,6 +250,9 @@ module Polysemy.Blockfrost.Api
     -- Client.Cardano.Ledger
     getLedgerGenesis                    ,
 
+    -- Client.Cardano.Mempool
+    getMempoolTransactions              ,
+
     -- Client.Cardano.Accounts
     getAccount                          ,
     getAccountRewards'                  ,
@@ -465,7 +468,10 @@ submitTx                            :: Member Blockfrost r => Member (Error Bloc
 -- Client.Cardano.Ledger
 getLedgerGenesis                    :: Member Blockfrost r => Member (Error BlockfrostError) r => Sem r Genesis
 
--- Client.Cardano.Accounts
+-- Client.Cardano.Mempool
+getMempoolTransactions              :: Member Blockfrost r => Member (Error BlockfrostError) r => Paged -> SortOrder -> Sem r [TxHashObject]
+
+  -- Client.Cardano.Accounts
 getAccount                          :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> Sem r AccountInfo
 getAccountRewards'                  :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> Paged -> SortOrder -> Sem r [AccountReward]
 getAccountRewards                   :: Member Blockfrost r => Member (Error BlockfrostError) r => Address -> Sem r [AccountReward]
@@ -628,6 +634,9 @@ submitTx                           a        = fromEither =<< BF.submitTx        
 
 -- Client.Cardano.Ledger
 getLedgerGenesis                            = fromEither =<< BF.getLedgerGenesis
+
+-- Client.Cardano.Mempool
+getMempoolTransactions             a b      = fromEither =<< BF.getMempoolTransactions a b
 
 -- Client.Cardano.Accounts
 getAccount                         a        = fromEither =<< BF.getAccount                         a
